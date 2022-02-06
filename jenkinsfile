@@ -12,7 +12,6 @@ pipeline{
               jsonitem = readJSON text: output
               println(jsonitem)
            }
-           echo "$USER ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers
            sh "sudo -S sed -i.bak 's/endpoint/${jsonitem['DBInstances'][0]['Endpoint']['Address']}/g' userdata.txt"
           script{
               def cmd = "aws elb create-load-balancer --name my-load-balancer --subnets subnet-04bb8948 subnet-15e22868 --security-groups sg-0244e3f85210cc582 --region us-east-2 "
